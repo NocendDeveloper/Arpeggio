@@ -1,26 +1,34 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class Note : MonoBehaviour
+public class Note : MonoBehaviourDpm
 {
-    [HideInInspector] public int code = 999;
     public int velocity = 0;
-    [HideInInspector] public int duration = 0;
-    [HideInInspector] public bool on;
+
+    private void Awake()
+    {
+        SetLogger(name, "#8B8BAE");
+    }
 
     void Update()
     {
         transform.Translate(Vector2.down * (velocity * Time.deltaTime));
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("DestroyerNotes"))
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+        }
+
+        if (other.gameObject.CompareTag("Fretter"))
+        {
+            gameObject.SetActive(false);
         }
     }
 }

@@ -1,21 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Melanchall.DryWetMidi.Interaction;
+using Melanchall.DryWetMidi.Multimedia;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 /**
  * A singleton for load the song and necessary metadata for complete that purpose.
  */
-public class SongHolder : MonoBehaviour
+public class SongHolder : MonoBehaviourDpm
 {
-    [HideInInspector] public string songPath;    
+    [HideInInspector] public string midiPath;    
+    [HideInInspector] public string mp3Path;    
     
-    [HideInInspector] public Dictionary<double, List<Note>> song = new ();
-
-    [HideInInspector] public int deltaTicksPerQuarterNote;
-    [HideInInspector] public double deltaTime;
-    public TempoMap TempoMap;
+    public Playback Playback;
     
     private static SongHolder _instance;
     
@@ -50,12 +49,9 @@ public class SongHolder : MonoBehaviour
         }
     }
 
-    /**
-     * Method for clean de data from variables of the class.
-     */
-    public void ClearData()
+    private void OnDestroy()
     {
-        Instance.song = new ();
+        Instance.Playback.Stop();
+        Instance.Playback.Dispose();
     }
-
 }
