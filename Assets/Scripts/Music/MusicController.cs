@@ -1,90 +1,70 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Melanchall.DryWetMidi.Interaction;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class MusicController : MonoBehaviourDpm
 {
+    [SerializeField] private MusicLoader musicLoader;
     public AudioSource speaker;
     
     public float timeout = 0.3f;
-    
-    public Button playButton;
-    public Button playPauseButton;
-    public Sprite iconPlay;
-    public Sprite iconPause;
-    private Sprite _playPauseButtonSprite;
-
-    private GameplayController _controller;
-    private InputAction _pause;
 
     private void Awake()
     {
         SetLogger(name, "#A5FFD6");
-        playButton.onClick.AddListener(PlaySong);
-        playPauseButton.onClick.AddListener(PlayPauseSong);
-
-        _playPauseButtonSprite = playPauseButton.GetComponent<Image>().sprite;
-        _controller = new GameplayController();
     }
-
-    private void OnEnable()
+    
+    public void PlayPauseSong()
     {
-        _pause = _controller.gameplay.PauseResume;
-        _pause.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _pause.Disable();
-    }
-
-    private void Update()
-    {
-        if (_pause.WasPressedThisFrame()) PlayPauseSong();
-    }
-
-    private void PlaySong()
-    {
-        DpmLogger.Log("Playing song... ");
+        // START
+        if (!musicLoader.playbackStarted) StartSong();
+        // PAUSE    
+        else if (musicLoader.Playback.IsRunning) PauseSong();
+        // REA-NUDE
+        else ResumeSong();
         
-        playButton.gameObject.SetActive(false);
-        playPauseButton.gameObject.SetActive(true);
+        SetIsRunning();
+    }
+
+    private void StartSong()
+    {
+        DpmLogger.Log("Starting song... ");
+        
         PlaySongMidi();
 
         // Play with time out.
         StartCoroutine(PlaySongMp3());
     }
     
-    public void PlayPauseSong()
+    private void PauseSong()
     {
-        if (SongHolder.Instance.Playback.IsRunning)
-        {
-            // PAUSE
-            DpmLogger.Log("Song paused");
+        DpmLogger.Log("Song paused");
             
-            speaker.Pause();
-            SongHolder.Instance.Playback.Stop();
-            Time.timeScale = 0.0f;
-            _playPauseButtonSprite = iconPause;
-        }
-        else
-        {
-            DpmLogger.Log("Song resumed");
+        speaker.Pause();
+        musicLoader.Playback.Stop();
+    }
+
+    private void ResumeSong()
+    {
+        DpmLogger.Log("Song resumed");
             
-            // REA-NUDE
-            speaker.Play();
-            SongHolder.Instance.Playback.Start();
-            Time.timeScale = 1.0f;
-            _playPauseButtonSprite = iconPlay;
-        }
+        speaker.Play();
+        musicLoader.Playback.Start();
+    }
+
+    private void SetIsRunning()
+    {
+        SongHolder.Instance.isRunning = musicLoader.Playback.IsRunning;
     }
 
     private void PlaySongMidi()
     {
-        SongHolder.Instance.Playback.Start();
+        musicLoader.Playback.Start();
+        SetIsRunning();
     }
             
     IEnumerator PlaySongMp3()

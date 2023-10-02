@@ -12,9 +12,9 @@ using UnityEngine.Serialization;
 public class SongHolder : MonoBehaviourDpm
 {
     [HideInInspector] public string midiPath;    
-    [HideInInspector] public string mp3Path;    
-    
-    public Playback Playback;
+    [HideInInspector] public string mp3Path;
+
+    public bool isRunning;
     
     private static SongHolder _instance;
     
@@ -47,11 +47,5 @@ public class SongHolder : MonoBehaviourDpm
         {
             Destroy(this);
         }
-    }
-
-    private void OnDestroy()
-    {
-        Instance.Playback.Stop();
-        Instance.Playback.Dispose();
     }
 }

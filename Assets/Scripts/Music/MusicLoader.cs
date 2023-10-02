@@ -10,8 +10,11 @@ using UnityEngine.Serialization;
 
 public class MusicLoader : MonoBehaviourDpm
 {
+    public Playback Playback;
     public AudioSource speaker;
     public SpawnerNotes spawnerNotes;
+
+    public bool playbackStarted;
 
     private void Awake()
     {
@@ -24,14 +27,21 @@ public class MusicLoader : MonoBehaviourDpm
         StartCoroutine(LoadSongFromMp3());
     }
     
+    private void OnDestroy()
+    {
+        Playback.Stop();
+        Playback.Dispose();
+    }
+
+    
     private void LoadSongFromMidi()
     {
         DpmLogger.Log("Loading song from midi... ");
         
         var midiFile = MidiFile.Read(SongHolder.Instance.midiPath);
-        SongHolder.Instance.Playback = midiFile.GetPlayback();
+        Playback = midiFile.GetPlayback();
 
-        SongHolder.Instance.Playback.NotesPlaybackStarted += (_, e) =>
+        Playback.NotesPlaybackStarted += (_, e) =>
         {
             try
             {
@@ -39,10 +49,14 @@ public class MusicLoader : MonoBehaviourDpm
             }
             catch (Exception exception)
             {
-                SongHolder.Instance.Playback.Stop();
-                SongHolder.Instance.Playback.Dispose();
+                Playback.Stop();
+                Playback.Dispose();
+                DpmLogger.Error("Error trying to create the Playback event: " + exception.Message);
             }
         };
+
+        Playback.Started += (o, e) => playbackStarted = true;
+        Playback.Finished += (o, e) => playbackStarted = false;
     }
 
     private IEnumerator LoadSongFromMp3()
