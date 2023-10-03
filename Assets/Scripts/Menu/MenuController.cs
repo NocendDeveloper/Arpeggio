@@ -12,6 +12,8 @@ public class MenuController : MonoBehaviourDpm
 {
     public Button playPauseButton;
     public Button restartButton;
+    public Button backButton;
+    
     public Sprite iconPlay;
     public Sprite iconPause;
     private Sprite _playPauseButtonSprite;
@@ -34,6 +36,8 @@ public class MenuController : MonoBehaviourDpm
 
         playPauseButton.onClick.AddListener(PlayPause);
         restartButton.onClick.AddListener(() => SceneManager.LoadScene(ConstantResources.Scenes.MainGameScene));
+        backButton.onClick.AddListener(() => SceneManager.LoadScene(ConstantResources.Scenes.FileBrowserScene));
+        
         _playPauseButtonSprite = playPauseButton.GetComponent<Image>().sprite;
         _controller = new GameplayController();
     }
@@ -68,11 +72,12 @@ public class MenuController : MonoBehaviourDpm
     {
         DpmLogger.Log("Game paused");
             
+        _playPauseButtonSprite = iconPlay;
         Time.timeScale = 0.0f;
         _pausedTime = Time.realtimeSinceStartup;
         
-        _playPauseButtonSprite = iconPlay;
         restartButton.gameObject.SetActive(true);
+        backButton.gameObject.SetActive(true);
         
         // Music controller pause logic
         musicController.PlayPauseSong();
@@ -85,9 +90,10 @@ public class MenuController : MonoBehaviourDpm
         
         DpmLogger.Log("Game resumed");
 
-        Time.timeScale = 1.0f;
         _playPauseButtonSprite = iconPause;
+        Time.timeScale = 1.0f;
         restartButton.gameObject.SetActive(false);
+        backButton.gameObject.SetActive(false);
 
         // Music controller pause logic
         musicController.PlayPauseSong();

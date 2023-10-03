@@ -6,15 +6,17 @@ using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Multimedia;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 public class MusicLoader : MonoBehaviourDpm
 {
     public Playback Playback;
+    public Playback PlaybackForTaps;
     public AudioSource speaker;
     public SpawnerNotes spawnerNotes;
 
-    public bool playbackStarted;
+    [HideInInspector] public bool playbackStarted;
 
     private void Awake()
     {
@@ -23,8 +25,7 @@ public class MusicLoader : MonoBehaviourDpm
 
     void Start()
     {
-        LoadSongFromMidi();
-        StartCoroutine(LoadSongFromMp3());
+        LoadFiles();
     }
     
     private void OnDestroy()
@@ -33,6 +34,18 @@ public class MusicLoader : MonoBehaviourDpm
         Playback.Dispose();
     }
 
+    private void LoadFiles()
+    {
+        try
+        {
+            LoadSongFromMidi();
+            StartCoroutine(LoadSongFromMp3());
+        }
+        catch (Exception e)
+        {
+            SceneManager.LoadScene(ConstantResources.Scenes.FileBrowserScene);
+        }
+    }
     
     private void LoadSongFromMidi()
     {
@@ -53,6 +66,11 @@ public class MusicLoader : MonoBehaviourDpm
                 Playback.Dispose();
                 DpmLogger.Error("Error trying to create the Playback event: " + exception.Message);
             }
+        };
+
+        PlaybackForTaps.NotesPlaybackStarted += (_, e) =>
+        {
+            // TODO 
         };
 
         Playback.Started += (o, e) => playbackStarted = true;

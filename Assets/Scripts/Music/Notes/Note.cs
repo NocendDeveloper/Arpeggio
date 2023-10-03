@@ -8,44 +8,46 @@ using UnityEngine.Serialization;
 public class Note : MonoBehaviourDpm
 {
     public int velocity = 0;
-    private SpriteRenderer _spriteRenderer;
+    
+    private Material _materialNote;
+
+    public Material[] colors;
 
     private void Awake()
     {
         SetLogger(name, "#8B8BAE");
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _materialNote = GetComponent<MeshRenderer>().material;
     }
 
     private void OnEnable()
     {
-
     }
 
     void Update()
     {
-        transform.Translate(Vector2.down * (velocity * Time.deltaTime));
+        transform.Translate(Vector3.down * (velocity * Time.deltaTime));
         
         switch (gameObject.transform.position.x)
         {
-            case -2:
-                _spriteRenderer.color = Color.yellow;
+            case -3:
+                _materialNote = colors[0];
                 break;
-            case -1:
-                _spriteRenderer.color = Color.cyan;
+            case -1.5f:
+                _materialNote = colors[1];
                 break;
             case -0:
-                _spriteRenderer.color = Color.green;
+                _materialNote = colors[2];
                 break;
-            case 1:
-                _spriteRenderer.color = Color.red;
+            case 1.5f:
+                _materialNote = colors[3];
                 break;
-            case 2:
-                _spriteRenderer.color = Color.magenta;
+            case 3:
+                _materialNote = colors[4];
                 break;
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("DestroyerNotes"))
         {

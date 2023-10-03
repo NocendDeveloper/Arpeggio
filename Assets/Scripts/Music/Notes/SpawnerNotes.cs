@@ -13,11 +13,11 @@ public class SpawnerNotes : MonoBehaviourDpm
     public ItemPool notePool;
 
     // Dictionary notes
-    private readonly Vector3 _positionDo = new (-2, 5);
-    private readonly Vector3 _positionRe = new (-1, 5);
-    private readonly Vector3 _positionMi = new (0, 5);
-    private readonly Vector3 _positionFa = new (1, 5);
-    private readonly Vector3 _positionSol = new (2, 5);
+    private readonly Vector3 _positionDo = new (-3, 20);
+    private readonly Vector3 _positionRe = new (-1.5f, 20);
+    private readonly Vector3 _positionMi = new (0, 20);
+    private readonly Vector3 _positionFa = new (1.5f, 20);
+    private readonly Vector3 _positionSol = new (3, 20);
     
     private readonly Dictionary<int, Vector3> _notesDictionary = new ();
     private Vector3[] _notesPositions;

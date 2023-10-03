@@ -12,7 +12,6 @@ namespace DefaultNamespace
         {
             public const string FileBrowserScene = "FileBrowser";
             public const string MainGameScene = "MainGameScene";
-            public const string LoadingScene = "LoadingScene";
         }
 
         public static class Strings

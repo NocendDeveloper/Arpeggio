@@ -4,43 +4,42 @@ using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class Fretter : MonoBehaviourDpm
 {
-    public Collider2D collider;
+    public new Collider collider;
     public float unFretAt;
     private float _timer;
 
-    public InputAction InputAction;
-
-    private Color _color;
-    private SpriteRenderer _spriteRenderer;
+    public InputAction inputAction;
 
     public Color color;
+
+    private Material _material;
     
     private void Awake()
     {
         SetLogger(name, "#A5FFD6");
-        _color = gameObject.GetComponent<SpriteRenderer>().color;
-        _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        _material = gameObject.GetComponent<MeshRenderer>().material;
     }
 
     private void OnEnable()
     {
-        InputAction.Enable(); 
+        inputAction.Enable(); 
     }
 
     private void OnDisable()
     {
-        InputAction.Disable(); 
+        inputAction.Disable(); 
     }
 
     private void Update()
     {
-        FretControl(InputAction);
+        FretControl(inputAction);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Note")) UnFret();
     }
@@ -61,14 +60,13 @@ public class Fretter : MonoBehaviourDpm
     private void Fret()
     {
         collider.enabled = true;
-        _color = color;
-        _spriteRenderer.color = color;
+        _material.SetColor(1, Color.black);
     }
 
     private void UnFret()
     {
         collider.enabled = false;
-        _spriteRenderer.color = Color.white;
+        _material.SetColor(1, Color.blue);
         _timer = 0;
     }
 }
