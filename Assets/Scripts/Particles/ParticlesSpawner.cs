@@ -8,8 +8,8 @@ public class ParticlesSpawner : MonoBehaviour
 
     public ParticleSystem ParticleSystem;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter(Collider other)
     {
-        ParticleSystem.Play();
+        if (other.gameObject.CompareTag("Note")) ParticleSystem.Play();
     }
 }

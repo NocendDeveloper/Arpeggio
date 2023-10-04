@@ -1,18 +1,16 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using DefaultNamespace;
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Multimedia;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class MusicLoader : MonoBehaviourDpm
 {
     public Playback Playback;
-    public Playback PlaybackForTaps;
     public AudioSource speaker;
     public SpawnerNotes spawnerNotes;
 
@@ -66,11 +64,6 @@ public class MusicLoader : MonoBehaviourDpm
                 Playback.Dispose();
                 DpmLogger.Error("Error trying to create the Playback event: " + exception.Message);
             }
-        };
-
-        PlaybackForTaps.NotesPlaybackStarted += (_, e) =>
-        {
-            // TODO 
         };
 
         Playback.Started += (o, e) => playbackStarted = true;

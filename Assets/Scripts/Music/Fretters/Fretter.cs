@@ -8,25 +8,26 @@ using UnityEngine.Serialization;
 
 public class Fretter : MonoBehaviourDpm
 {
-    public new Collider collider;
+    private Collider _collider;
     public float unFretAt;
     private float _timer;
 
     public InputAction inputAction;
 
-    public Color color;
+    public Material[] colors;
 
-    private Material _material;
+    private Renderer _renderer;
     
     private void Awake()
     {
         SetLogger(name, "#A5FFD6");
-        _material = gameObject.GetComponent<MeshRenderer>().material;
+        _renderer = gameObject.GetComponent<Renderer>();
+        _collider = gameObject.GetComponent<Collider>();
     }
 
     private void OnEnable()
     {
-        inputAction.Enable(); 
+        inputAction.Enable();
     }
 
     private void OnDisable()
@@ -49,24 +50,54 @@ public class Fretter : MonoBehaviourDpm
      */
     private void FretControl(InputAction inputAction)
     {
-        if (collider.enabled) _timer += Time.deltaTime * 1f;
+        if (_collider.enabled) _timer += Time.deltaTime * 1f;
         
         if (_timer > unFretAt) UnFret();
-        else if (inputAction.WasPressedThisFrame()) Fret();
+        if (inputAction.WasPressedThisFrame()) Fret();
         
-        if (inputAction.WasReleasedThisFrame()) UnFret();
+        if (inputAction.WasReleasedThisFrame()) _renderer.material = colors[1];
     }
 
     private void Fret()
     {
-        collider.enabled = true;
-        _material.SetColor(1, Color.black);
+        // if (!CheckCollisionWithNote()) DpmLogger.Log("Falláste jajáaa");
+
+        _collider.enabled = true;
+        _renderer.material = colors[0];
     }
 
     private void UnFret()
     {
-        collider.enabled = false;
-        _material.SetColor(1, Color.blue);
+        _collider.enabled = false;
         _timer = 0;
     }
+    
+    // private bool CheckCollisionWithNote()
+    // {
+    //     // La posición desde donde se lanza el Raycast puede ser el centro del jugador o cualquier punto que desees.
+    //     var transform1 = transform;
+    //     Vector3 raycastOrigin = transform1.position;
+    //
+    //     // La dirección del Raycast, puede ser hacia adelante o en la dirección que necesites.
+    //     Vector3 raycastDirection = transform1.forward;
+    //
+    //     // La longitud máxima del Raycast, ajusta esto según tus necesidades.
+    //     float raycastDistance = 0.3f;
+    //
+    //     Debug.DrawRay(raycastOrigin, raycastDirection * raycastDistance, Color.red);
+    //     
+    //     // Lanzar el Raycast y verificar si colisiona con objetos con la etiqueta "Note".
+    //     RaycastHit hit;
+    //     if (Physics.Raycast(raycastOrigin, raycastDirection, out hit, raycastDistance))
+    //     {
+    //         if (hit.collider.isTrigger)
+    //         {
+    //             // El jugador ha acertado a una nota.
+    //             return true;
+    //         }
+    //     }
+    //
+    //     // El jugador no ha acertado a ninguna nota.
+    //     return false;
+    // }
 }

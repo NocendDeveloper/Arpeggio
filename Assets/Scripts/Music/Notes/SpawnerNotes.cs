@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DefaultNamespace;
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Multimedia;
@@ -31,12 +32,15 @@ public class SpawnerNotes : MonoBehaviourDpm
 
     public void SpawnNote(NotesEventArgs notesEventArgs)
     {
-        var notes = notesEventArgs.Notes;
+        var noteMidi = notesEventArgs.Notes.FirstOrDefault();
+
+        if (noteMidi == null) return;
         
-        foreach (var note in notes)
-        {
-            notePool.GetItem(_notesDictionary[note.NoteNumber], Quaternion.identity);
-        }
+        // DpmLogger.Log("Nota sonando => " + (noteMidi.EndTime - noteMidi.Time));
+        
+        Note note = notePool.GetItem(_notesDictionary[noteMidi.NoteNumber], Quaternion.identity).GetComponent<Note>();
+
+        note.SetColor();
     }
 
     private void InitialiceNotesDictionary()
