@@ -60,8 +60,6 @@ public class MenuController : MonoBehaviourDpm
 
     private void PlayPause()
     {
-        DpmLogger.Log("_paused: " + _paused);
-        
         // PAUSE
         if (!_paused) PauseGame();
         // REA-NUDE

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using DefaultNamespace;
 using Melanchall.DryWetMidi.Core;
+using Melanchall.DryWetMidi.Interaction;
 using Melanchall.DryWetMidi.Multimedia;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -50,6 +51,9 @@ public class MusicLoader : MonoBehaviourDpm
         DpmLogger.Log("Loading song from midi... ");
         
         var midiFile = MidiFile.Read(SongHolder.Instance.midiPath);
+
+        SongHolder.Instance.totalNotes = midiFile.GetNotes().Count;
+        
         Playback = midiFile.GetPlayback();
 
         Playback.NotesPlaybackStarted += (_, e) =>
@@ -67,7 +71,12 @@ public class MusicLoader : MonoBehaviourDpm
         };
 
         Playback.Started += (o, e) => playbackStarted = true;
-        Playback.Finished += (o, e) => playbackStarted = false;
+        Playback.Finished += (o, e) =>
+        {
+            DpmLogger.Log("Song finished");
+            ScoreController.Instance.CalculatePercentageOfCorrectNotes();
+            playbackStarted = false;
+        };
     }
 
     private IEnumerator LoadSongFromMp3()

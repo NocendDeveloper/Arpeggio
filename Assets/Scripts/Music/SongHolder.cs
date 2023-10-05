@@ -13,11 +13,13 @@ public class SongHolder : MonoBehaviourDpm
 {
     [HideInInspector] public string midiPath;    
     [HideInInspector] public string mp3Path;
+    
+    [HideInInspector] public int totalNotes;
 
     public bool isRunning;
     
     private static SongHolder _instance;
-    
+
     public static SongHolder Instance
     {
         get

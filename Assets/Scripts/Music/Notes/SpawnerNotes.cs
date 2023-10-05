@@ -39,7 +39,12 @@ public class SpawnerNotes : MonoBehaviourDpm
         // DpmLogger.Log("Nota sonando => " + (noteMidi.EndTime - noteMidi.Time));
         
         Note note = notePool.GetItem(_notesDictionary[noteMidi.NoteNumber], Quaternion.identity).GetComponent<Note>();
-
+        note.note = noteMidi.NoteNumber;
+        if (noteMidi.NoteNumber <= 89 ||noteMidi.NoteNumber >= 99)
+        {
+            SongHolder.Instance.totalNotes--;
+            note.gameObject.SetActive(false);
+        }
         note.SetColor();
     }
 

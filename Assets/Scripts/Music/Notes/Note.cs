@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 
 public class Note : MonoBehaviourDpm
 {
+    public int note;
     public int velocity = 0;
     
     private Renderer _renderer;
@@ -33,13 +34,13 @@ public class Note : MonoBehaviourDpm
     private void NoteFailed()
     {
         gameObject.SetActive(false);
-        ScoreController.Instance.ResetStreak();
+        ScoreController.Instance.ScoreControl(ScoreController.Actions.RESET_STREAK);
     }
     
     private void NoteFretted()
     {
         gameObject.SetActive(false);
-        ScoreController.Instance.ScoreUp();
+        ScoreController.Instance.ScoreControl(ScoreController.Actions.UP);
     }
     
     public void SetColor()
