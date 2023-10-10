@@ -1,100 +1,81 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using DefaultNamespace;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MenuController : MonoBehaviourDpm
 {
-    public Button playPauseButton;
-    public Button restartButton;
-    public Button backButton;
+    public InputAction actionKey;
+
+    /* CANVAS CONTROL */
+    private bool _activated;
+    private Canvas _canvas;
     
-    public Sprite iconPlay;
-    public Sprite iconPause;
-    private Sprite _playPauseButtonSprite;
-
-    [SerializeField] private MusicController musicController;
+    /* BUTTONS CONTROL */
+    public Button buttonResume;
+    public Button buttonOptions;
+    public Button buttonExit;
     
-    private GameplayController _controller;
-
-    private InputAction _pause;
-    private bool _paused = true;
-    private float _pausedTime = 0.0f;
+    /* OPTIONS */
+    public new TMP_Dropdown.DropdownEvent camera;
     
-    public int secondsToWaitForStart;
-    public AudioSource startWarning;
-
-
     private void Awake()
     {
-        SetLogger(name, "#FF686B");
-
-        playPauseButton.onClick.AddListener(PlayPause);
-        restartButton.onClick.AddListener(() => SceneManager.LoadScene(ConstantResources.Scenes.MainGameScene));
-        backButton.onClick.AddListener(() => SceneManager.LoadScene(ConstantResources.Scenes.FileBrowserScene));
-        
-        _playPauseButtonSprite = playPauseButton.GetComponent<Image>().sprite;
-        _controller = new GameplayController();
+        SetLogger(name, "#53DD6C");
+        _canvas = gameObject.GetComponent<Canvas>();
+        _canvas.enabled = false;
+        SetListeners();
     }
-    
+
     private void OnEnable()
     {
-        _pause = _controller.gameplay.PauseResume;
-        _pause.Enable();
+        actionKey.Enable();
     }
 
     private void OnDisable()
     {
-        _pause.Disable();
+        actionKey.Disable(); 
     }
-
+    
     private void Update()
     {
-        if (_pause.WasPressedThisFrame()) PlayPause();
+        if (actionKey.WasPressedThisFrame()) ActivationControl();
     }
 
-    private void PlayPause()
+    private void ActivationControl()
     {
-        // PAUSE
-        if (!_paused) PauseGame();
-        // REA-NUDE
-        else ResumeGame();
+        if (_activated)
+        {
+            _canvas.enabled = false;
+            _activated = false;
+        }
+        else
+        {
+            _canvas.enabled = true;
+            _activated = true;
+        }
     }
 
-    private void PauseGame()
+    private void SetListeners()
     {
-        DpmLogger.Log("Game paused");
-            
-        _playPauseButtonSprite = iconPlay;
-        Time.timeScale = 0.0f;
-        _pausedTime = Time.realtimeSinceStartup;
-        
-        restartButton.gameObject.SetActive(true);
-        backButton.gameObject.SetActive(true);
-        
-        // Music controller pause logic
-        musicController.PlayPauseSong();
-        _paused = true;
+        buttonResume.onClick.AddListener(Resume);
+        buttonOptions.onClick.AddListener(Options);
+        buttonExit.onClick.AddListener(Exit);
     }
 
-    private void ResumeGame()
+    private void Resume()
     {
-        startWarning.Play();
-        
-        DpmLogger.Log("Game resumed");
-
-        _playPauseButtonSprite = iconPause;
-        Time.timeScale = 1.0f;
-        restartButton.gameObject.SetActive(false);
-        backButton.gameObject.SetActive(false);
-
-        // Music controller pause logic
-        musicController.PlayPauseSong();
-        _paused = false;
+        DpmLogger.Log("Resume click");
+        ActivationControl();
+    }
+    
+    private void Options()
+    {
+        DpmLogger.Log("Options click");
+    }
+    
+    private void Exit()
+    {
+        DpmLogger.Log("Exit click");
     }
 }
