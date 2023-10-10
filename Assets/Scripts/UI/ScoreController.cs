@@ -10,6 +10,7 @@ public class ScoreController : MonoBehaviour
     public enum Actions
     {
         UP,
+        UP_NO_STREAK,
         RESET_STREAK,
         RESET_SCORE,
         RESET_ALL
@@ -49,6 +50,9 @@ public class ScoreController : MonoBehaviour
             case Actions.UP:
                 ScoreUp();
                 break;
+            case Actions.UP_NO_STREAK:
+                ScoreUpNoStreak();
+                break;
             case Actions.RESET_STREAK:
                 ResetStreak();
                 break;
@@ -84,6 +88,12 @@ public class ScoreController : MonoBehaviour
         _score += (ScoreToUp * _multiplier);
     }
     
+    private void ScoreUpNoStreak()
+    {
+        // Score up
+        _score += (ScoreToUp * _multiplier);
+    }
+    
     private void ResetScore()
     {
         _score = 0;
@@ -103,14 +113,27 @@ public class ScoreController : MonoBehaviour
 
     public void CalculatePercentageOfCorrectNotes()
     {
-        _percentageOfCorrectNotes = (SongHolder.Instance.totalNotes / _totalNotesCorrect) * 100;
+        _percentageOfCorrectNotes = (_totalNotesCorrect / SongHolder.Instance.totalNotes) * 100;
     }
 
     private void UpdateUI() // TODO QUITAR DE AQUÍ SI SE PUEDE HACER COSAS TIPO SUBSCRIBERS O ALGO ASÍ
     {
-        scoreValue.SetText(_score.ToString()); 
-        streakValue.SetText(_streak.ToString()); 
-        multiplierValue.SetText(_multiplier.ToString()); 
+        object[] values = { _multiplier.ToString() };
+        ValueSetterInToText valueSetterInToText = multiplierValue.GetComponent<ValueSetterInToText>();
+        valueSetterInToText.SetValue(values);
+
+        values = new object[] { _streak.ToString() };
+        valueSetterInToText = streakValue.GetComponent<ValueSetterInToText>();
+        valueSetterInToText.SetValue(values);
+        
+        values = new object[] { _score.ToString() };
+        valueSetterInToText = scoreValue.GetComponent<ValueSetterInToText>();
+        valueSetterInToText.SetValue(values);
+        
+        values = new object[] { _percentageOfCorrectNotes.ToString() };
+        valueSetterInToText = percentageCorrectNotes.GetComponent<ValueSetterInToText>();
+        valueSetterInToText.SetValue(values);
+        
         streakMeterController.SetStreakMeterValue(_streak);
     }
     

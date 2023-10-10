@@ -8,6 +8,9 @@ TagManager:
   - Nut
   - Fretter
   - Note
+  - NoteEnd
+  - NoteStart
+  - FretterHold
   layers:
   - Default
   - TransparentFX

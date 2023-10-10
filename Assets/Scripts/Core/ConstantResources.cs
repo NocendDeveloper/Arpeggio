@@ -4,7 +4,7 @@ namespace DefaultNamespace
 {
     public static class ConstantResources
     {
-        public const string FolderPath = "P:\\Unity\\Arpeggio\\Assets\\Music\\";
+        // public const string FolderPath = "Assets\\Music\\";
         public const string FileExtensionMidi = ".mid";
         public const string FileExtensionMp3 = ".mp3";
         

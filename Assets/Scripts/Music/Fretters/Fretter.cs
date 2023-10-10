@@ -6,70 +6,38 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-public class Fretter : MonoBehaviourDpm
+public class Fretter : FretterCore
 {
-    private Collider _collider;
-    public float unFretAt;
-    private float _timer;
-
-    public InputAction inputAction;
-
-    public Material[] colors;
-
-    private Renderer _renderer;
-    
-    private void Awake()
-    {
-        SetLogger(name, "#A5FFD6");
-        _renderer = gameObject.GetComponent<Renderer>();
-        _collider = gameObject.GetComponent<Collider>();
-    }
-
-    private void OnEnable()
-    {
-        inputAction.Enable();
-    }
-
-    private void OnDisable()
-    {
-        inputAction.Disable(); 
-    }
-
-    private void Update()
-    {
-        FretControl(inputAction);
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Note")) UnFret();
     }
-
+    
     /**
      * This method controls that the player dont hold de button for take all notes.
      */
-    private void FretControl(InputAction inputAction)
+    protected override void FretControl(InputAction inputAction)
     {
-        if (_collider.enabled) _timer += Time.deltaTime * 1f;
+        if (collider.enabled) timer += Time.deltaTime * 1f;
         
-        if (_timer > unFretAt) UnFret();
+        if (timer > unFretAt) UnFret();
         if (inputAction.WasPressedThisFrame()) Fret();
         
-        if (inputAction.WasReleasedThisFrame()) _renderer.material = colors[1];
+        if (inputAction.WasReleasedThisFrame()) renderer.material = colors[1];
     }
 
     private void Fret()
     {
         // if (!CheckCollisionWithNote()) DpmLogger.Log("Falláste jajáaa");
 
-        _collider.enabled = true;
-        _renderer.material = colors[0];
+        collider.enabled = true;
+        renderer.material = colors[0];
     }
 
     private void UnFret()
     {
-        _collider.enabled = false;
-        _timer = 0;
+        collider.enabled = false;
+        timer = 0;
     }
     
     // private bool CheckCollisionWithNote()

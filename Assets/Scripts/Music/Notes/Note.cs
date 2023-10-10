@@ -5,26 +5,8 @@ using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class Note : MonoBehaviourDpm
+public class Note : NoteCore
 {
-    public int note;
-    public int velocity = 0;
-    
-    private Renderer _renderer;
-
-    public Material[] colors;
-
-    private void Awake()
-    {
-        SetLogger(name, "#8B8BAE");
-        _renderer = GetComponent<Renderer>();
-    }
-
-    void Update()
-    {
-        transform.Translate(Vector3.down * (velocity * Time.deltaTime));
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("DestroyerNotes")) NoteFailed();
@@ -41,27 +23,5 @@ public class Note : MonoBehaviourDpm
     {
         gameObject.SetActive(false);
         ScoreController.Instance.ScoreControl(ScoreController.Actions.UP);
-    }
-    
-    public void SetColor()
-    {
-        switch (gameObject.transform.position.x)
-        {
-            case -3:
-                _renderer.material = colors[0];
-                break;
-            case -1.5f:
-                _renderer.material = colors[1];
-                break;
-            case -0:
-                _renderer.material = colors[2];
-                break;
-            case 1.5f:
-                _renderer.material = colors[3];
-                break;
-            case 3:
-                _renderer.material = colors[4];
-                break;
-        }
     }
 }

@@ -11,6 +11,7 @@ using UnityEngine.UI;
 
 public class FileBrowser : MonoBehaviourDpm
 {
+    private string _folderPath;
     [SerializeField] private Transform content; // Reference of scroll view content.
     [SerializeField] private GameObject fileButtonPrefab; // Button prefab for select files.
     
@@ -21,6 +22,7 @@ public class FileBrowser : MonoBehaviourDpm
     private void Awake()
     {
         SetLogger(name, "#208AAE");
+        _folderPath = "C:\\dpm/";
     }
 
     private void Start()
@@ -30,11 +32,11 @@ public class FileBrowser : MonoBehaviourDpm
 
     public void LoadFileList()
     {
-        DpmLogger.Log("Loading file list... ");
+        DpmLogger.Log("Loading file list... " + _folderPath);
 
         _currentY = 0f;
         
-        string[] files = Directory.GetFiles(ConstantResources.FolderPath);
+        string[] files = Directory.GetFiles(_folderPath);
         var group = files.GroupBy(Path.GetFileNameWithoutExtension);
 
         DpmLogger.Log("Mounting buttons... ");
@@ -71,8 +73,8 @@ public class FileBrowser : MonoBehaviourDpm
     private void SelectFile(string fileName)
     {
         DpmLogger.Log("File Selected: " + fileName);
-        SongHolder.Instance.midiPath = ConstantResources.FolderPath + fileName + ConstantResources.FileExtensionMidi;
-        SongHolder.Instance.mp3Path = ConstantResources.FolderPath + fileName + ConstantResources.FileExtensionMp3;
+        SongHolder.Instance.midiPath = _folderPath + fileName + ConstantResources.FileExtensionMidi;
+        SongHolder.Instance.mp3Path = _folderPath + fileName + ConstantResources.FileExtensionMp3;
         SceneManager.LoadScene(ConstantResources.Scenes.MainGameScene);
     }
 }

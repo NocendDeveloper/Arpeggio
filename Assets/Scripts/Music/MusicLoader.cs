@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace;
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Interaction;
 using Melanchall.DryWetMidi.Multimedia;
+using Melanchall.DryWetMidi.Tools;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -29,8 +31,7 @@ public class MusicLoader : MonoBehaviourDpm
     
     private void OnDestroy()
     {
-        Playback.Stop();
-        Playback.Dispose();
+        DestroyPlayback();
     }
 
     private void LoadFiles()
@@ -64,10 +65,14 @@ public class MusicLoader : MonoBehaviourDpm
             }
             catch (Exception exception)
             {
-                Playback.Stop();
-                Playback.Dispose();
+                DestroyPlayback();
                 DpmLogger.Error("Error trying to create the Playback event: " + exception.Message);
             }
+        };
+
+        Playback.NotesPlaybackFinished += (_, e) =>
+        {
+            UnityThread.executeInUpdate(() => spawnerNotes.SpawnNoteEnd(e));
         };
 
         Playback.Started += (o, e) => playbackStarted = true;
@@ -100,4 +105,12 @@ public class MusicLoader : MonoBehaviourDpm
         }
     }
 
+    public void DestroyPlayback()
+    {
+        if (Playback != null)
+        {
+            Playback.Stop();
+            Playback.Dispose();
+        }
+    }
 }
