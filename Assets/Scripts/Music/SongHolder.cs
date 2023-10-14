@@ -15,6 +15,19 @@ public class SongHolder : MonoBehaviourDpm
     [HideInInspector] public string mp3Path;
     
     [HideInInspector] public int totalNotes;
+    [HideInInspector] public string songTitle;
+    [HideInInspector] public long songCurrentTimeMidi;
+    [HideInInspector] public long songTotalTimeMidi;
+    
+    public enum Status { STARTED, PAUSED, STOPPED, FINISHED };
+    public Dictionary<Status, string> songStatusDictionary = new ()
+    {
+        { Status.STARTED, "STARTED" },
+        { Status.PAUSED, "PAUSED" },
+        { Status.STOPPED, "STOPPED" },
+        { Status.FINISHED, "FINISHED" },
+    };
+    [HideInInspector] public string songStatus = "STATUS";
 
     public bool isRunning;
     

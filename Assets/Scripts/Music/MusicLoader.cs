@@ -56,11 +56,14 @@ public class MusicLoader : MonoBehaviourDpm
         SongHolder.Instance.totalNotes = midiFile.GetNotes().Count;
         
         Playback = midiFile.GetPlayback();
+        
+        SongHolder.Instance.songTotalTimeMidi = long.Parse(Playback.GetDuration(TimeSpanType.Midi).ToString());
 
         Playback.NotesPlaybackStarted += (_, e) =>
         {
             try
             {
+                SongHolder.Instance.songCurrentTimeMidi = long.Parse(Playback.GetCurrentTime(TimeSpanType.Midi).ToString());
                 UnityThread.executeInUpdate(() => spawnerNotes.SpawnNote(e));
             }
             catch (Exception exception)

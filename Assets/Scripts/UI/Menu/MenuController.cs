@@ -1,81 +1,147 @@
+using DefaultNamespace;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuController : MonoBehaviourDpm
 {
-    public InputAction actionKey;
+    public InputActionReference actionKey;
+    public PauseController pauseController;
 
     /* CANVAS CONTROL */
-    private bool _activated;
+    public bool activated;
     private Canvas _canvas;
+    public CameraController cameraController;
     
-    /* BUTTONS CONTROL */
-    public Button buttonResume;
-    public Button buttonOptions;
-    public Button buttonExit;
+    /* TABS */
+    public Button generalTabButton;
+    public Button keybindingsTabButton;
+    public GameObject generalTab;
+    public GameObject keybindingsTab;
     
     /* OPTIONS */
-    public new TMP_Dropdown.DropdownEvent camera;
+    public GameObject optionsPanel;
     
     private void Awake()
     {
         SetLogger(name, "#53DD6C");
         _canvas = gameObject.GetComponent<Canvas>();
         _canvas.enabled = false;
-        SetListeners();
     }
 
     private void OnEnable()
     {
-        actionKey.Enable();
+        actionKey.action.Enable();
+        optionsPanel.SetActive(false);
+        TabDisableAll();
+        if (SceneManager.GetActiveScene().name == "MainGameScene") SetRenderCamera();
     }
 
     private void OnDisable()
     {
-        actionKey.Disable(); 
+        actionKey.action.Disable(); 
     }
     
     private void Update()
     {
-        if (actionKey.WasPressedThisFrame()) ActivationControl();
+        if (actionKey.action.WasPressedThisFrame()) ActivationControl();
+    }
+
+    private void SetRenderCamera()
+    {
+        string camera = PlayerPrefs.GetString(ConstantResources.Configuration.Cameras.PrefString);
+
+        switch (camera)
+        {
+            case ConstantResources.Configuration.Cameras.Orthographic:
+                _canvas.worldCamera = cameraController.orthographicCamera;
+                break;
+            case ConstantResources.Configuration.Cameras.Perspective:
+                _canvas.worldCamera = cameraController.perspectiveCamera;
+                break;
+        }
     }
 
     private void ActivationControl()
     {
-        if (_activated)
+        if (activated)
         {
             _canvas.enabled = false;
-            _activated = false;
+            activated = false;
         }
         else
         {
             _canvas.enabled = true;
-            _activated = true;
+            activated = true;
+            if (SceneManager.GetActiveScene().name == "MainGameScene") pauseController.PauseGame();
         }
     }
 
-    private void SetListeners()
-    {
-        buttonResume.onClick.AddListener(Resume);
-        buttonOptions.onClick.AddListener(Options);
-        buttonExit.onClick.AddListener(Exit);
-    }
+    #region MAIN BUTTONS
 
-    private void Resume()
+    public void Resume()
     {
         DpmLogger.Log("Resume click");
         ActivationControl();
     }
-    
-    private void Options()
+
+    public void Songs()
     {
-        DpmLogger.Log("Options click");
+        DpmLogger.Log("Songs click");
+        if (SceneManager.GetActiveScene().name != "FileBrowser") SceneManager.LoadScene("FileBrowser");
+        ActivationControl();
     }
     
-    private void Exit()
+    public void Options()
+    {
+        DpmLogger.Log("Options click");
+        optionsPanel.SetActive(true);
+        TabControl(Tabs.GENERAL);
+    }
+    
+    public void Exit()
     {
         DpmLogger.Log("Exit click");
     }
+    
+    #endregion
+
+    #region TABS
+
+    public enum Tabs
+    {
+        GENERAL = 0,
+        KEYBINDINGS = 1
+    }
+
+    public void TabControl(Tabs tab)
+    {
+        TabControl((int)tab);
+    }
+    
+    public void TabControl(int tab)
+    {
+        DpmLogger.Log("Tab control: " + tab);
+        TabDisableAll();
+        
+        switch ((Tabs)tab)
+        {
+            case Tabs.GENERAL:
+                generalTab.SetActive(true);
+                break;
+            case Tabs.KEYBINDINGS:
+                keybindingsTab.SetActive(true);
+                break;
+        }
+    }
+
+    private void TabDisableAll()
+    {
+        generalTab.SetActive(false);
+        keybindingsTab.SetActive(false);
+    }
+
+    #endregion
 }

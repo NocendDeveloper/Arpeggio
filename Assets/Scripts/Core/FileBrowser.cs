@@ -75,6 +75,7 @@ public class FileBrowser : MonoBehaviourDpm
         DpmLogger.Log("File Selected: " + fileName);
         SongHolder.Instance.midiPath = _folderPath + fileName + ConstantResources.FileExtensionMidi;
         SongHolder.Instance.mp3Path = _folderPath + fileName + ConstantResources.FileExtensionMp3;
+        SongHolder.Instance.songTitle = fileName;
         SceneManager.LoadScene(ConstantResources.Scenes.MainGameScene);
     }
 }

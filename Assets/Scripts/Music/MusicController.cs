@@ -13,17 +13,17 @@ public class MusicController : MonoBehaviourDpm
         SetLogger(name, "#A5FFD6");
     }
     
-    public void PlayPauseSong()
-    {
-        // START
-        if (!musicLoader.playbackStarted) StartSong();
-        // PAUSE    
-        else if (musicLoader.Playback.IsRunning) PauseSong();
-        // REA-NUDE
-        else ResumeSong();
-        
-        SetIsRunning();
-    }
+    // public void PlayPauseSong()
+    // {
+    //     // START
+    //     if (!musicLoader.playbackStarted) StartSong();
+    //     // PAUSE    
+    //     else if (musicLoader.Playback.IsRunning) PauseSong();
+    //     // REA-NUDE
+    //     else ResumeSong();
+    //     
+    //     SetIsRunning();
+    // }
 
     private void StartSong()
     {
@@ -35,7 +35,7 @@ public class MusicController : MonoBehaviourDpm
         StartCoroutine(PlaySongMp3());
     }
     
-    private void PauseSong()
+    public void PauseSong()
     {
         DpmLogger.Log("Song paused");
             
@@ -43,8 +43,14 @@ public class MusicController : MonoBehaviourDpm
         musicLoader.Playback.Stop();
     }
 
-    private void ResumeSong()
+    public void ResumeSong()
     {
+        if (!musicLoader.playbackStarted)
+        {
+            StartSong();
+            return;
+        }
+        
         DpmLogger.Log("Song resumed");
             
         speaker.Play();

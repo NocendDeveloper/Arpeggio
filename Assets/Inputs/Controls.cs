@@ -80,6 +80,15 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ESC"",
+                    ""type"": ""Button"",
+                    ""id"": ""77ee4285-e53a-424f-89c8-7b7a51bd4986"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -87,7 +96,18 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""f7008b2f-04d2-4cc6-a646-cfe9d0990fcd"",
                     ""path"": ""<Keyboard>/z"",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Do"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""05bd8647-e6b8-4951-a1d5-d0ae74a60a80"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Do"",
@@ -98,6 +118,17 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""455907e5-b7c3-4326-80e9-df81fb094b7f"",
                     ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Re"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e897e24-616b-45ac-9e8a-7550b6d21802"",
+                    ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -118,6 +149,17 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""a9409bec-f62c-44cf-86d5-fa94696e6240"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mi"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""5feb4ac3-6700-4c07-a2b1-4c5abe0de434"",
                     ""path"": ""<Keyboard>/period"",
                     ""interactions"": """",
@@ -129,8 +171,30 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""7e5e96e5-6e58-4b42-8dde-1506fb75573a"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fa"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""5f5dd492-b9e0-49a5-8b6a-c41a7816b6a1"",
-                    ""path"": ""<Keyboard>/minus"",
+                    ""path"": ""<Keyboard>/slash"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sol"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0574d584-61ac-4ed9-8fe7-5cf048d9a90c"",
+                    ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -148,6 +212,28 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
                     ""action"": ""Pause/Resume"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a7c59fef-b1ff-4068-9455-d5ed4a69c63f"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause/Resume"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2e59606c-461e-4590-a982-d2e397a6d788"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ESC"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -162,6 +248,7 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
         m_gameplay_Fa = m_gameplay.FindAction("Fa", throwIfNotFound: true);
         m_gameplay_Sol = m_gameplay.FindAction("Sol", throwIfNotFound: true);
         m_gameplay_PauseResume = m_gameplay.FindAction("Pause/Resume", throwIfNotFound: true);
+        m_gameplay_ESC = m_gameplay.FindAction("ESC", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -229,6 +316,7 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
     private readonly InputAction m_gameplay_Fa;
     private readonly InputAction m_gameplay_Sol;
     private readonly InputAction m_gameplay_PauseResume;
+    private readonly InputAction m_gameplay_ESC;
     public struct GameplayActions
     {
         private @GameplayController m_Wrapper;
@@ -239,6 +327,7 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
         public InputAction @Fa => m_Wrapper.m_gameplay_Fa;
         public InputAction @Sol => m_Wrapper.m_gameplay_Sol;
         public InputAction @PauseResume => m_Wrapper.m_gameplay_PauseResume;
+        public InputAction @ESC => m_Wrapper.m_gameplay_ESC;
         public InputActionMap Get() { return m_Wrapper.m_gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -266,6 +355,9 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
             @PauseResume.started += instance.OnPauseResume;
             @PauseResume.performed += instance.OnPauseResume;
             @PauseResume.canceled += instance.OnPauseResume;
+            @ESC.started += instance.OnESC;
+            @ESC.performed += instance.OnESC;
+            @ESC.canceled += instance.OnESC;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -288,6 +380,9 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
             @PauseResume.started -= instance.OnPauseResume;
             @PauseResume.performed -= instance.OnPauseResume;
             @PauseResume.canceled -= instance.OnPauseResume;
+            @ESC.started -= instance.OnESC;
+            @ESC.performed -= instance.OnESC;
+            @ESC.canceled -= instance.OnESC;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -313,5 +408,6 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
         void OnFa(InputAction.CallbackContext context);
         void OnSol(InputAction.CallbackContext context);
         void OnPauseResume(InputAction.CallbackContext context);
+        void OnESC(InputAction.CallbackContext context);
     }
 }

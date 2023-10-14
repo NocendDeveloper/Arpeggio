@@ -44,5 +44,16 @@ namespace DefaultNamespace
         {
             public const string PlayButton = "btnPlay";
         }
+
+        public static class Configuration
+        {
+            private const string _prefString = "Configuration=>";
+            public static class Cameras
+            {
+                public const string PrefString = Configuration._prefString + "Cameras=>";
+                public const string Perspective = "Perspective";
+                public const string Orthographic = "Orthographic";
+            }
+        }
     }
 }

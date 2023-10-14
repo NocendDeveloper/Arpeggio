@@ -191,8 +191,8 @@ Canvas:
   m_GameObject: {fileID: 25772949}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 1226593478}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -218,7 +218,7 @@ RectTransform:
   - {fileID: 300541230}
   - {fileID: 1227692978}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -242,7 +242,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6634184331520562228, guid: c58387ca93bb32644a1fbbcb8ebd2f99, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6634184331520562228, guid: c58387ca93bb32644a1fbbcb8ebd2f99, type: 3}
       propertyPath: m_AnchorMax.x
@@ -324,6 +324,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1226593478}
+    - target: {fileID: 8946119314399764667, guid: c58387ca93bb32644a1fbbcb8ebd2f99, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 197.37476
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c58387ca93bb32644a1fbbcb8ebd2f99, type: 3}
 --- !u!1 &114830714
@@ -595,7 +599,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &300541229
 GameObject:

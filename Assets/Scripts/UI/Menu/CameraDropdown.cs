@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,20 @@ public class CameraDropdown : MonoBehaviourDpm
 
     public void ChangeCamera(int selected)
     {
-        DpmLogger.Log("Change camera to: " + selected);
+        string camera = "";
+        
+        switch (selected)
+        {
+            case 0:
+                camera = ConstantResources.Configuration.Cameras.Orthographic;
+                break;
+            case 1:
+                camera = ConstantResources.Configuration.Cameras.Perspective;
+                break;
+        }
+        
+        PlayerPrefs.SetString(ConstantResources.Configuration.Cameras.PrefString, camera);
+        
+        DpmLogger.Log("Camera changed to: " + camera);
     }
 }

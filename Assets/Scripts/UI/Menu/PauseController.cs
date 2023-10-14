@@ -29,6 +29,7 @@ public class PauseController : MonoBehaviourDpm
     public int secondsToWaitForStart;
     public AudioSource startWarning;
 
+    public MenuController menuController;
 
     private void Awake()
     {
@@ -55,10 +56,10 @@ public class PauseController : MonoBehaviourDpm
 
     private void Update()
     {
-        if (_pause.WasPressedThisFrame()) PlayPause();
+        if (_pause.WasPressedThisFrame() && !menuController.activated) PlayPause();
     }
 
-    private void PlayPause()
+    public void PlayPause()
     {
         // PAUSE
         if (!_paused) PauseGame();
@@ -66,7 +67,7 @@ public class PauseController : MonoBehaviourDpm
         else ResumeGame();
     }
 
-    private void PauseGame()
+    public void PauseGame()
     {
         DpmLogger.Log("Game paused");
             
@@ -78,7 +79,7 @@ public class PauseController : MonoBehaviourDpm
         backButton.gameObject.SetActive(true);
         
         // Music controller pause logic
-        musicController.PlayPauseSong();
+        musicController.PauseSong();
         _paused = true;
     }
 
@@ -94,7 +95,7 @@ public class PauseController : MonoBehaviourDpm
         backButton.gameObject.SetActive(false);
 
         // Music controller pause logic
-        musicController.PlayPauseSong();
+        musicController.ResumeSong();
         _paused = false;
     }
 }

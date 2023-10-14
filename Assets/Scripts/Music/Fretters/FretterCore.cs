@@ -9,7 +9,8 @@ public abstract class FretterCore : MonoBehaviourDpm
     protected float timer;
     public float unFretAt;
 
-    public InputAction inputAction;
+    [SerializeField]
+    private InputActionReference inputAction;
 
     public Material[] colors;
 
@@ -20,18 +21,9 @@ public abstract class FretterCore : MonoBehaviourDpm
         SetLogger(name, "#A5FFD6");
         renderer = gameObject.GetComponent<Renderer>();
         collider = gameObject.GetComponent<Collider>();
+        // DpmLogger.Log("controls 0 " + inputAction.Set(inputAction.action[0]));
     }
 
-    private void OnEnable()
-    {
-        inputAction.Enable();
-    }
-
-    private void OnDisable()
-    {
-        inputAction.Disable(); 
-    }
-    
     private void Update()
     {
         FretControl(inputAction);
