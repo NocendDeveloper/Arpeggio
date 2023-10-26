@@ -50,10 +50,29 @@ namespace DefaultNamespace
             private const string _prefString = "Configuration=>";
             public static class Cameras
             {
-                public const string PrefString = Configuration._prefString + "Cameras=>";
+                public const string PrefString = _prefString + "Cameras=>";
                 public const string Perspective = "Perspective";
                 public const string Orthographic = "Orthographic";
             }
+            public static class MusicSheet
+            {
+                public const string PrefString = _prefString + "MusicSheet=>";
+                public const string Original = "Original";
+                public const string Autistic = "Autistic";
+            }
+        }
+
+        public static class Records
+        {
+            private const string PrefStringRecords = "Records=>";
+            private const string PrefStringScore = "Score=>";
+            private const string PrefStringMaxStreak = "MaxStreak=>";
+            private const string PrefStringPercentage = "Percentage=>";
+            private const string PrefStringSongTitle = "SongTitle=>{0}";
+            
+            public const string Score = PrefStringRecords + PrefStringScore + PrefStringSongTitle;
+            public const string MaxStreak = PrefStringRecords + PrefStringMaxStreak + PrefStringSongTitle;
+            public const string Percentage = PrefStringRecords + PrefStringPercentage + PrefStringSongTitle;
         }
     }
 }

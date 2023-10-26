@@ -21,11 +21,11 @@ public class TextHover : MonoBehaviourDpm, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        _textMeshPro.color = Color.magenta;
+        _textMeshPro.color = hoverColor.linear;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        _textMeshPro.color = Color.white;
+        _textMeshPro.color = normalColor.linear;
     }
 }

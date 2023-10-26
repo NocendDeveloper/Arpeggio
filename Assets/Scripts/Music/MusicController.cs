@@ -57,15 +57,9 @@ public class MusicController : MonoBehaviourDpm
         musicLoader.Playback.Start();
     }
 
-    private void SetIsRunning()
-    {
-        SongHolder.Instance.isRunning = musicLoader.Playback.IsRunning;
-    }
-
     private void PlaySongMidi()
     {
         musicLoader.Playback.Start();
-        SetIsRunning();
     }
             
     IEnumerator PlaySongMp3()

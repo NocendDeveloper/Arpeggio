@@ -76,8 +76,18 @@ public class SpawnerNotes : MonoBehaviourDpm
         DpmLogger.Log("Initializating notes dictionary... ");
         
         var noteIndex = 0;
-        _notesPositions = new []{ _positionDo, _positionRe, _positionMi, _positionFa, _positionSol };
-        
+
+        switch (PlayerPrefs.GetString(ConstantResources.Configuration.MusicSheet.PrefString))
+        {
+            case ConstantResources.Configuration.MusicSheet.Original:
+                _notesPositions = new []{ _positionSol, _positionDo, _positionRe, _positionMi, _positionFa };
+                break;
+            case ConstantResources.Configuration.MusicSheet.Autistic:
+                _notesPositions = new []{ _positionDo, _positionRe, _positionMi, _positionFa, _positionSol };
+                break;
+        }
+            
+
         for (var i = 0; i <= 127; i++)
         {
             _notesDictionary.Add(i, _notesPositions[noteIndex]);

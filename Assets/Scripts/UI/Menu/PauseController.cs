@@ -16,7 +16,7 @@ public class PauseController : MonoBehaviourDpm
     
     public Sprite iconPlay;
     public Sprite iconPause;
-    private Sprite _playPauseButtonSprite;
+    private Image _playPauseButtonSprite;
 
     [SerializeField] private MusicController musicController;
     
@@ -39,7 +39,7 @@ public class PauseController : MonoBehaviourDpm
         restartButton.onClick.AddListener(() => SceneManager.LoadScene(ConstantResources.Scenes.MainGameScene));
         backButton.onClick.AddListener(() => SceneManager.LoadScene(ConstantResources.Scenes.FileBrowserScene));
         
-        _playPauseButtonSprite = playPauseButton.GetComponent<Image>().sprite;
+        _playPauseButtonSprite = playPauseButton.GetComponent<Image>();
         _controller = new GameplayController();
     }
     
@@ -71,7 +71,7 @@ public class PauseController : MonoBehaviourDpm
     {
         DpmLogger.Log("Game paused");
             
-        _playPauseButtonSprite = iconPlay;
+        _playPauseButtonSprite.sprite = iconPlay;
         Time.timeScale = 0.0f;
         _pausedTime = Time.realtimeSinceStartup;
         
@@ -89,7 +89,7 @@ public class PauseController : MonoBehaviourDpm
         
         DpmLogger.Log("Game resumed");
 
-        _playPauseButtonSprite = iconPause;
+        _playPauseButtonSprite.sprite = iconPause;
         Time.timeScale = 1.0f;
         restartButton.gameObject.SetActive(false);
         backButton.gameObject.SetActive(false);

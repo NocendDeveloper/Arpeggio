@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,25 +13,36 @@ public class PlayerMusicController : MonoBehaviourDpm
     public TextMeshProUGUI songTimeText;
 
     public Slider bar;
+    public ScoreScreen scoreScreen;
 
     public AudioSource audioSource;
+
+    private float _timer;
 
     private void Awake()
     {
         SetLogger(name, "#A5FFD6");
     }
 
-    private void Start()
+    private void OnEnable()
     {
         songTitleText.text = SongHolder.Instance.songTitle;
-        bar.maxValue = SongHolder.Instance.songTotalTimeMidi;
+        bar.maxValue = SongHolder.Instance.songTotalTimeMp3;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        songTimeText.text = SecondsToMinutesText(audioSource.time);
-        songStatusText.text = SongHolder.Instance.songStatus;
-        bar.value = SongHolder.Instance.songCurrentTimeMidi;
+        _timer += Time.deltaTime * 1;
+
+        if (_timer >= 1)
+        {
+            songTimeText.text = SecondsToMinutesText(audioSource.time);
+            songStatusText.text = SongHolder.Instance.songStatus;
+            bar.value = audioSource.time;
+            _timer = 0;
+        }
+        
+        if (!audioSource.isPlaying && SongHolder.Instance.songStatus.Equals(SongHolder.GetSongStatusString(SongHolder.Status.FINISHED))) scoreScreen.gameObject.SetActive(true);
     }
 
     private string SecondsToMinutesText(float seconds)

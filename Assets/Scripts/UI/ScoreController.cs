@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreController : MonoBehaviour
+public class ScoreController : MonoBehaviourDpm
 {
     public enum Actions
     {
@@ -29,15 +30,16 @@ public class ScoreController : MonoBehaviour
     private long _score;
     private int _multiplier = 1;
     private int _streak;
+    private int _maxStreak;
     private int _percentageOfCorrectNotes;
     private int _totalNotesCorrect;
     private const int ScoreToUp = 10;
 
     public long Score => _score;
-
+    public long MaxStreak => _maxStreak;
     public int Multiplier => _multiplier;
-
     public int MultiplierScore => _streak;
+    public int PercentageOfCorrectNotes => _percentageOfCorrectNotes;
 
     /**
      * This method controls all the score stats.
@@ -79,6 +81,8 @@ public class ScoreController : MonoBehaviour
     {
         // Streak up
         _streak++;
+        if (_streak > _maxStreak) _maxStreak = _streak;
+        
         _totalNotesCorrect++;
         
         // Multiplier
@@ -111,9 +115,46 @@ public class ScoreController : MonoBehaviour
         ResetStreak();
     }
 
-    public void CalculatePercentageOfCorrectNotes()
+    public void OnSongFinish()
     {
-        _percentageOfCorrectNotes = (_totalNotesCorrect / SongHolder.Instance.totalNotes) * 100;
+        CalculatePercentageOfCorrectNotes();
+        UnityThread.executeInUpdate(SaveNewRecords);
+    }
+    
+    private void CalculatePercentageOfCorrectNotes()
+    {
+        DpmLogger.Log("Calculating percentage of correct notes... ");
+        var decimalPercentage = Math.Round(((double)_totalNotesCorrect / (double)SongHolder.Instance.totalNotes), 2);
+        DpmLogger.Log("decimalPercentage => " + decimalPercentage);
+        _percentageOfCorrectNotes = (int) (decimalPercentage * 100);
+        DpmLogger.Log("_percentageOfCorrectNotes => " + _percentageOfCorrectNotes);
+    }
+
+    private void SaveNewRecords()
+    {
+        DpmLogger.Log("Checking new records... ");
+        
+        int currentScoreRecord = PlayerPrefs.GetInt(String.Format(ConstantResources.Records.Score, SongHolder.Instance.songTitle), 0);
+        int currentMaxStreakRecord = PlayerPrefs.GetInt(String.Format(ConstantResources.Records.MaxStreak, SongHolder.Instance.songTitle), 0);
+        int currentPercentageRecord = PlayerPrefs.GetInt(String.Format(ConstantResources.Records.Percentage, SongHolder.Instance.songTitle), 0);
+
+        if (_score > currentScoreRecord)
+        {
+            DpmLogger.Log("Saving new _score record: " + _score);
+            PlayerPrefs.SetInt(String.Format(ConstantResources.Records.Score, SongHolder.Instance.songTitle), (int) _score);
+        }
+
+        if (_maxStreak > currentMaxStreakRecord)
+        {
+            DpmLogger.Log("Saving new _maxStreak record: " + _maxStreak);
+            PlayerPrefs.SetInt(String.Format(ConstantResources.Records.MaxStreak, SongHolder.Instance.songTitle), _maxStreak);
+        }
+
+        if (_percentageOfCorrectNotes > currentPercentageRecord)
+        {
+            DpmLogger.Log("Saving new _percentageOfCorrectNotes record: " + _percentageOfCorrectNotes);
+            PlayerPrefs.SetInt(String.Format(ConstantResources.Records.Percentage, SongHolder.Instance.songTitle), _percentageOfCorrectNotes);
+        }
     }
 
     private void UpdateUI() // TODO QUITAR DE AQUÍ SI SE PUEDE HACER COSAS TIPO SUBSCRIBERS O ALGO ASÍ
@@ -160,6 +201,7 @@ public class ScoreController : MonoBehaviour
     {
         if (_instance == null)
         {
+            SetLogger(name, "#645986");
             _instance = this;
             DontDestroyOnLoad(this);
         }

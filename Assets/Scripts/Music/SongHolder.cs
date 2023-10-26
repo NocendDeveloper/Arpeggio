@@ -18,6 +18,7 @@ public class SongHolder : MonoBehaviourDpm
     [HideInInspector] public string songTitle;
     [HideInInspector] public long songCurrentTimeMidi;
     [HideInInspector] public long songTotalTimeMidi;
+    [HideInInspector] public float songTotalTimeMp3;
     
     public enum Status { STARTED, PAUSED, STOPPED, FINISHED };
     public Dictionary<Status, string> songStatusDictionary = new ()
@@ -29,8 +30,6 @@ public class SongHolder : MonoBehaviourDpm
     };
     [HideInInspector] public string songStatus = "STATUS";
 
-    public bool isRunning;
-    
     private static SongHolder _instance;
 
     public static SongHolder Instance
@@ -62,5 +61,10 @@ public class SongHolder : MonoBehaviourDpm
         {
             Destroy(this);
         }
+    }
+
+    public static string GetSongStatusString(Status status)
+    {
+        return Instance.songStatusDictionary[status];
     }
 }

@@ -15,7 +15,7 @@ public class CameraController : MonoBehaviourDpm
         SetLogger(name, "#98DFEA");
     }
 
-    private void Start()
+    private void OnEnable()
     {
         LoadCameraConfiguration();
     }

@@ -64,7 +64,7 @@ public class FileBrowser : MonoBehaviourDpm
         RectTransform buttonRectTransform = fileButton.GetComponent<RectTransform>();
         buttonRectTransform.anchoredPosition = new Vector2(0f, -_currentY);
         _currentY += buttonRectTransform.rect.height + _verticalSpacing;
-
+        
         // Agrega un Listener para manejar la selección del archivo
         Button buttonComponent = fileButton.GetComponent<Button>();
         buttonComponent.onClick.AddListener(() => SelectFile(filePath));

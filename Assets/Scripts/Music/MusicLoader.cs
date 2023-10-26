@@ -16,8 +16,10 @@ public class MusicLoader : MonoBehaviourDpm
     public Playback Playback;
     public AudioSource speaker;
     public SpawnerNotes spawnerNotes;
-
+    
     [HideInInspector] public bool playbackStarted;
+    [HideInInspector] public bool mp3Loaded;
+    [HideInInspector] public bool midiLoaded;
 
     private void Awake()
     {
@@ -38,6 +40,8 @@ public class MusicLoader : MonoBehaviourDpm
     {
         try
         {
+            mp3Loaded = false;
+            midiLoaded = false;
             LoadSongFromMidi();
             StartCoroutine(LoadSongFromMp3());
         }
@@ -63,7 +67,7 @@ public class MusicLoader : MonoBehaviourDpm
         {
             try
             {
-                SongHolder.Instance.songCurrentTimeMidi = long.Parse(Playback.GetCurrentTime(TimeSpanType.Midi).ToString());
+                // SongHolder.Instance.songCurrentTimeMidi = long.Parse(Playback.GetCurrentTime(TimeSpanType.Midi).ToString());
                 UnityThread.executeInUpdate(() => spawnerNotes.SpawnNote(e));
             }
             catch (Exception exception)
@@ -82,9 +86,12 @@ public class MusicLoader : MonoBehaviourDpm
         Playback.Finished += (o, e) =>
         {
             DpmLogger.Log("Song finished");
-            ScoreController.Instance.CalculatePercentageOfCorrectNotes();
+            ScoreController.Instance.OnSongFinish();
+            SongHolder.Instance.songStatus = SongHolder.GetSongStatusString(SongHolder.Status.FINISHED);
             playbackStarted = false;
         };
+        
+        midiLoaded = true;
     }
 
     private IEnumerator LoadSongFromMp3()
@@ -100,12 +107,15 @@ public class MusicLoader : MonoBehaviourDpm
             {
                 AudioClip audioClip = DownloadHandlerAudioClip.GetContent(www);
                 speaker.clip = audioClip;
+                SongHolder.Instance.songTotalTimeMp3 = speaker.clip.length;
             }
             else
             {
                 DpmLogger.Error("Error loading MP3: " + www.error);
             }
         }
+
+        mp3Loaded = true;
     }
 
     public void DestroyPlayback()
