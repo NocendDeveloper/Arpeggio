@@ -33,11 +33,11 @@ public class PlayerMusicController : MonoBehaviourDpm
     private void Update()
     {
         _timer += Time.deltaTime * 1;
+        songStatusText.text = SongHolder.Instance.songStatus;
 
         if (_timer >= 1)
         {
             songTimeText.text = SecondsToMinutesText(audioSource.time);
-            songStatusText.text = SongHolder.Instance.songStatus;
             bar.value = audioSource.time;
             _timer = 0;
         }

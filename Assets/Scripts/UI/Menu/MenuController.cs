@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MenuController : MonoBehaviourDpm
@@ -24,11 +25,15 @@ public class MenuController : MonoBehaviourDpm
     /* OPTIONS */
     public GameObject optionsPanel;
     
+    /* NUMBER VERSION */
+    [SerializeField] private TMP_Text numberVersionTMPText;
+    
     private void Awake()
     {
         SetLogger(name, "#53DD6C");
         _canvas = gameObject.GetComponent<Canvas>();
         _canvas.enabled = false;
+        numberVersionTMPText.text = "v" + Application.version;
     }
 
     private void OnEnable()
@@ -37,6 +42,7 @@ public class MenuController : MonoBehaviourDpm
         optionsPanel.SetActive(false);
         TabDisableAll();
         if (SceneManager.GetActiveScene().name == "MainGameScene") SetRenderCamera();
+        SongHolder.Instance.SetSongStatus(SongHolder.Status.STOPPED);
     }
 
     private void OnDisable()

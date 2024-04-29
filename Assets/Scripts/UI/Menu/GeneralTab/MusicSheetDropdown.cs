@@ -28,7 +28,7 @@ public class MusicSheetDropdown : MonoBehaviourDpm
                 sheetConfig = ConstantResources.Configuration.MusicSheet.Original;
                 break;
             case 1:
-                sheetConfig = ConstantResources.Configuration.MusicSheet.Autistic;
+                sheetConfig = ConstantResources.Configuration.MusicSheet.Matias;
                 break;
         }
         
@@ -52,7 +52,7 @@ public class MusicSheetDropdown : MonoBehaviourDpm
             case ConstantResources.Configuration.MusicSheet.Original:
                 dropdown.value = 0;
                 break;
-            case ConstantResources.Configuration.MusicSheet.Autistic:
+            case ConstantResources.Configuration.MusicSheet.Matias:
                 dropdown.value = 1;
                 break;
         }

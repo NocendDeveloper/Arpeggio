@@ -28,6 +28,7 @@ public class MusicController : MonoBehaviourDpm
     private void StartSong()
     {
         DpmLogger.Log("Starting song... ");
+        SongHolder.Instance.SetSongStatus(SongHolder.Status.STARTED);
         
         PlaySongMidi();
 
@@ -38,6 +39,7 @@ public class MusicController : MonoBehaviourDpm
     public void PauseSong()
     {
         DpmLogger.Log("Song paused");
+        SongHolder.Instance.SetSongStatus(SongHolder.Status.PAUSED);
             
         speaker.Pause();
         musicLoader.Playback.Stop();
@@ -52,6 +54,7 @@ public class MusicController : MonoBehaviourDpm
         }
         
         DpmLogger.Log("Song resumed");
+        SongHolder.Instance.SetSongStatus(SongHolder.Status.STARTED);
             
         speaker.Play();
         musicLoader.Playback.Start();

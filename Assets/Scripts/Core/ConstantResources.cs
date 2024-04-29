@@ -58,7 +58,7 @@ namespace DefaultNamespace
             {
                 public const string PrefString = _prefString + "MusicSheet=>";
                 public const string Original = "Original";
-                public const string Autistic = "Autistic";
+                public const string Matias = "Matías";
             }
         }
 
@@ -73,6 +73,14 @@ namespace DefaultNamespace
             public const string Score = PrefStringRecords + PrefStringScore + PrefStringSongTitle;
             public const string MaxStreak = PrefStringRecords + PrefStringMaxStreak + PrefStringSongTitle;
             public const string Percentage = PrefStringRecords + PrefStringPercentage + PrefStringSongTitle;
+        }
+
+        public static class Logs
+        {
+            public static class Colors
+            {
+                public const string SongHolder = "#E637BF";
+            }
         }
     }
 }

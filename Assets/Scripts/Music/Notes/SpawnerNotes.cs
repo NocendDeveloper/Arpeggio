@@ -82,7 +82,7 @@ public class SpawnerNotes : MonoBehaviourDpm
             case ConstantResources.Configuration.MusicSheet.Original:
                 _notesPositions = new []{ _positionSol, _positionDo, _positionRe, _positionMi, _positionFa };
                 break;
-            case ConstantResources.Configuration.MusicSheet.Autistic:
+            case ConstantResources.Configuration.MusicSheet.Matias:
                 _notesPositions = new []{ _positionDo, _positionRe, _positionMi, _positionFa, _positionSol };
                 break;
         }

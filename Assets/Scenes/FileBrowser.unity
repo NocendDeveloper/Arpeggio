@@ -232,6 +232,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1734460563122894763, guid: c58387ca93bb32644a1fbbcb8ebd2f99, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[1].m_Text
+      value: "Mat\xEDas"
+      objectReference: {fileID: 0}
     - target: {fileID: 6457078938936195191, guid: c58387ca93bb32644a1fbbcb8ebd2f99, type: 3}
       propertyPath: m_IsActive
       value: 1

@@ -87,7 +87,7 @@ public class MusicLoader : MonoBehaviourDpm
         {
             DpmLogger.Log("Song finished");
             ScoreController.Instance.OnSongFinish();
-            SongHolder.Instance.songStatus = SongHolder.GetSongStatusString(SongHolder.Status.FINISHED);
+            SongHolder.Instance.SetSongStatus(SongHolder.Status.FINISHED);
             playbackStarted = false;
         };
         

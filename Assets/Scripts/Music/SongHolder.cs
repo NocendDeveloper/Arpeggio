@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using Melanchall.DryWetMidi.Interaction;
 using Melanchall.DryWetMidi.Multimedia;
 using UnityEngine;
@@ -54,6 +55,8 @@ public class SongHolder : MonoBehaviourDpm
     {
         if (_instance == null)
         {
+            name = "SongHolder";
+            SetLogger(name, ConstantResources.Logs.Colors.SongHolder);
             _instance = this;
             DontDestroyOnLoad(this);
         }
@@ -66,5 +69,12 @@ public class SongHolder : MonoBehaviourDpm
     public static string GetSongStatusString(Status status)
     {
         return Instance.songStatusDictionary[status];
+    }
+
+    public void SetSongStatus(Status status)
+    {
+        string newStatus = GetSongStatusString(status);
+        DpmLogger.Log("Setting the status song at: " + newStatus);
+        Instance.songStatus = newStatus;
     }
 }
