@@ -20,8 +20,9 @@ public class ValueSetterInToText : MonoBehaviourDpm
         textMeshProUGUI = gameObject.GetComponent<TextMeshProUGUI>();
     }
 
-    public void SetValue(object[] values)
+    public void SetValue(object[] values, Color color = default)
     {
         textMeshProUGUI.SetText(String.Format(constantFormattedString, values));
+        if (color != default) textMeshProUGUI.color = color;
     }
 }

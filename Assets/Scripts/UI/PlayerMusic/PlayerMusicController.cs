@@ -42,7 +42,7 @@ public class PlayerMusicController : MonoBehaviourDpm
             _timer = 0;
         }
         
-        if (!audioSource.isPlaying && SongHolder.Instance.songStatus.Equals(SongHolder.GetSongStatusString(SongHolder.Status.FINISHED))) scoreScreen.gameObject.SetActive(true);
+        if (SongHolder.Instance.songStatus.Equals(SongHolder.GetSongStatusString(SongHolder.Status.FINISHED))) scoreScreen.gameObject.SetActive(true);
     }
 
     private string SecondsToMinutesText(float seconds)

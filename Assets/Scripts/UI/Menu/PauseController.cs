@@ -13,6 +13,7 @@ public class PauseController : MonoBehaviourDpm
     public Button playPauseButton;
     public Button restartButton;
     public Button backButton;
+    public Button finishButton;
     
     public Sprite iconPlay;
     public Sprite iconPause;
@@ -36,6 +37,7 @@ public class PauseController : MonoBehaviourDpm
         SetLogger(name, "#FF686B");
 
         playPauseButton.onClick.AddListener(PlayPause);
+        finishButton.onClick.AddListener(musicController.FinishCurrentSong);
         restartButton.onClick.AddListener(() => SceneManager.LoadScene(ConstantResources.Scenes.MainGameScene));
         backButton.onClick.AddListener(() => SceneManager.LoadScene(ConstantResources.Scenes.FileBrowserScene));
         

@@ -80,6 +80,7 @@ namespace DefaultNamespace
             public static class Colors
             {
                 public const string SongHolder = "#E637BF";
+                public const string CursorHider = "#DB7F67";
             }
         }
     }

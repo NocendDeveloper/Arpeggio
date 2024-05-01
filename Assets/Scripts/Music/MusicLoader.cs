@@ -118,6 +118,14 @@ public class MusicLoader : MonoBehaviourDpm
         mp3Loaded = true;
     }
 
+    /**
+     * Force the song to end.
+     */
+    public void FinishSong()
+    {
+        Playback.MoveToTime(Playback.GetDuration(TimeSpanType.Metric));
+    }
+
     public void DestroyPlayback()
     {
         if (Playback != null)

@@ -22,6 +22,10 @@ public class ScoreController : MonoBehaviourDpm
     public TextMeshProUGUI multiplierValue;
     public TextMeshProUGUI percentageCorrectNotes;
     public StreakMeterController streakMeterController;
+
+    public bool scoreNewRecord = false;
+    public bool maxStreakNewRecord = false;
+    public bool percentageOfCorrectNotesNewRecord = false;
     
     /* SCORE STATS */
     
@@ -142,18 +146,21 @@ public class ScoreController : MonoBehaviourDpm
         {
             DpmLogger.Log("Saving new _score record: " + _score);
             PlayerPrefs.SetInt(String.Format(ConstantResources.Records.Score, SongHolder.Instance.songTitle), (int) _score);
+            scoreNewRecord = true;
         }
 
         if (_maxStreak > currentMaxStreakRecord)
         {
             DpmLogger.Log("Saving new _maxStreak record: " + _maxStreak);
             PlayerPrefs.SetInt(String.Format(ConstantResources.Records.MaxStreak, SongHolder.Instance.songTitle), _maxStreak);
+            maxStreakNewRecord = true;
         }
 
         if (_percentageOfCorrectNotes > currentPercentageRecord)
         {
             DpmLogger.Log("Saving new _percentageOfCorrectNotes record: " + _percentageOfCorrectNotes);
             PlayerPrefs.SetInt(String.Format(ConstantResources.Records.Percentage, SongHolder.Instance.songTitle), _percentageOfCorrectNotes);
+            percentageOfCorrectNotesNewRecord = true;
         }
     }
 

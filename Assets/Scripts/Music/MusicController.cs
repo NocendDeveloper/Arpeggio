@@ -60,6 +60,12 @@ public class MusicController : MonoBehaviourDpm
         musicLoader.Playback.Start();
     }
 
+    public void FinishCurrentSong()
+    {
+        speaker.Stop();
+        musicLoader.FinishSong();
+    }
+
     private void PlaySongMidi()
     {
         musicLoader.Playback.Start();

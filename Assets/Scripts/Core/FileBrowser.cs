@@ -22,7 +22,8 @@ public class FileBrowser : MonoBehaviourDpm
     private void Awake()
     {
         SetLogger(name, "#208AAE");
-        _folderPath = "C:\\dpm/";
+        // _folderPath = "C:\\dpm/";
+        _folderPath = Application.streamingAssetsPath + "/";
     }
 
     private void Start()
