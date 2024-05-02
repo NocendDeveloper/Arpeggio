@@ -8,15 +8,17 @@ public class NoteCore : MonoBehaviourDpm
     public int octave;
     public long length;
     public int velocity = 0;
+    protected int VelocityHolder = 0;
 
-    private Renderer _renderer;
+    protected Renderer _renderer;
 
     public Material[] colors;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         SetLogger(name, "#8B8BAE");
         _renderer = GetComponent<Renderer>();
+        VelocityHolder = velocity;
     }
     
     void Update()

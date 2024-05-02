@@ -83,5 +83,10 @@ namespace DefaultNamespace
                 public const string CursorHider = "#DB7F67";
             }
         }
+
+        public static class DebugMode
+        {
+            public const string PrefName = "debugmode";
+        }
     }
 }

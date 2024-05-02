@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreScreen : MonoBehaviourDpm
 {
     public TextMeshProUGUI score;
     public TextMeshProUGUI maxStreak;
     public TextMeshProUGUI percentage;
-
+    
     private void Awake()
     {
         SetLogger(name, "#A5FFD6");

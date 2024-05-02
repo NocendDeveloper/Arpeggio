@@ -68,15 +68,16 @@ public class FileBrowser : MonoBehaviourDpm
         
         // Agrega un Listener para manejar la selección del archivo
         Button buttonComponent = fileButton.GetComponent<Button>();
-        buttonComponent.onClick.AddListener(() => SelectFile(filePath));
+        buttonComponent.onClick.AddListener(() => SelectFile(filePath, fileButtonPrefab));
     }
 
-    private void SelectFile(string fileName)
+    private void SelectFile(string fileName, GameObject fileButtonPrefab)
     {
         DpmLogger.Log("File Selected: " + fileName);
         SongHolder.Instance.midiPath = _folderPath + fileName + ConstantResources.FileExtensionMidi;
         SongHolder.Instance.mp3Path = _folderPath + fileName + ConstantResources.FileExtensionMp3;
         SongHolder.Instance.songTitle = fileName;
+        
         SceneManager.LoadScene(ConstantResources.Scenes.MainGameScene);
     }
 }

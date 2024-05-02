@@ -89,6 +89,15 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DebugMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""08aa68a2-0b0f-4104-8d72-b058652247f7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -234,6 +243,45 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
                     ""action"": ""ESC"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eab7a090-f6f7-4b60-8269-eb7978be6225"",
+                    ""path"": ""<Keyboard>/f12"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DebugMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""settings"",
+            ""id"": ""ffba3c61-49a5-4478-b761-57de84cb7f3c"",
+            ""actions"": [
+                {
+                    ""name"": ""DebugMode"",
+                    ""type"": ""Value"",
+                    ""id"": ""72e3de2d-1e4e-45a9-ad8c-191f3654937f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f6830a9d-4d54-471d-8f03-687e1b94da8b"",
+                    ""path"": ""<Keyboard>/f12"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DebugMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -249,6 +297,10 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
         m_gameplay_Sol = m_gameplay.FindAction("Sol", throwIfNotFound: true);
         m_gameplay_PauseResume = m_gameplay.FindAction("Pause/Resume", throwIfNotFound: true);
         m_gameplay_ESC = m_gameplay.FindAction("ESC", throwIfNotFound: true);
+        m_gameplay_DebugMode = m_gameplay.FindAction("DebugMode", throwIfNotFound: true);
+        // settings
+        m_settings = asset.FindActionMap("settings", throwIfNotFound: true);
+        m_settings_DebugMode = m_settings.FindAction("DebugMode", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -317,6 +369,7 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
     private readonly InputAction m_gameplay_Sol;
     private readonly InputAction m_gameplay_PauseResume;
     private readonly InputAction m_gameplay_ESC;
+    private readonly InputAction m_gameplay_DebugMode;
     public struct GameplayActions
     {
         private @GameplayController m_Wrapper;
@@ -328,6 +381,7 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
         public InputAction @Sol => m_Wrapper.m_gameplay_Sol;
         public InputAction @PauseResume => m_Wrapper.m_gameplay_PauseResume;
         public InputAction @ESC => m_Wrapper.m_gameplay_ESC;
+        public InputAction @DebugMode => m_Wrapper.m_gameplay_DebugMode;
         public InputActionMap Get() { return m_Wrapper.m_gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -358,6 +412,9 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
             @ESC.started += instance.OnESC;
             @ESC.performed += instance.OnESC;
             @ESC.canceled += instance.OnESC;
+            @DebugMode.started += instance.OnDebugMode;
+            @DebugMode.performed += instance.OnDebugMode;
+            @DebugMode.canceled += instance.OnDebugMode;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -383,6 +440,9 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
             @ESC.started -= instance.OnESC;
             @ESC.performed -= instance.OnESC;
             @ESC.canceled -= instance.OnESC;
+            @DebugMode.started -= instance.OnDebugMode;
+            @DebugMode.performed -= instance.OnDebugMode;
+            @DebugMode.canceled -= instance.OnDebugMode;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -400,6 +460,52 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
         }
     }
     public GameplayActions @gameplay => new GameplayActions(this);
+
+    // settings
+    private readonly InputActionMap m_settings;
+    private List<ISettingsActions> m_SettingsActionsCallbackInterfaces = new List<ISettingsActions>();
+    private readonly InputAction m_settings_DebugMode;
+    public struct SettingsActions
+    {
+        private @GameplayController m_Wrapper;
+        public SettingsActions(@GameplayController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @DebugMode => m_Wrapper.m_settings_DebugMode;
+        public InputActionMap Get() { return m_Wrapper.m_settings; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SettingsActions set) { return set.Get(); }
+        public void AddCallbacks(ISettingsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SettingsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SettingsActionsCallbackInterfaces.Add(instance);
+            @DebugMode.started += instance.OnDebugMode;
+            @DebugMode.performed += instance.OnDebugMode;
+            @DebugMode.canceled += instance.OnDebugMode;
+        }
+
+        private void UnregisterCallbacks(ISettingsActions instance)
+        {
+            @DebugMode.started -= instance.OnDebugMode;
+            @DebugMode.performed -= instance.OnDebugMode;
+            @DebugMode.canceled -= instance.OnDebugMode;
+        }
+
+        public void RemoveCallbacks(ISettingsActions instance)
+        {
+            if (m_Wrapper.m_SettingsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ISettingsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SettingsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SettingsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public SettingsActions @settings => new SettingsActions(this);
     public interface IGameplayActions
     {
         void OnDo(InputAction.CallbackContext context);
@@ -409,5 +515,10 @@ public partial class @GameplayController: IInputActionCollection2, IDisposable
         void OnSol(InputAction.CallbackContext context);
         void OnPauseResume(InputAction.CallbackContext context);
         void OnESC(InputAction.CallbackContext context);
+        void OnDebugMode(InputAction.CallbackContext context);
+    }
+    public interface ISettingsActions
+    {
+        void OnDebugMode(InputAction.CallbackContext context);
     }
 }

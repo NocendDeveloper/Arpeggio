@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "DebugMode",
+                    "type": "Button",
+                    "id": "08aa68a2-0b0f-4104-8d72-b058652247f7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -210,6 +219,45 @@
                     "processors": "",
                     "groups": "",
                     "action": "ESC",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eab7a090-f6f7-4b60-8269-eb7978be6225",
+                    "path": "<Keyboard>/f12",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DebugMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "settings",
+            "id": "ffba3c61-49a5-4478-b761-57de84cb7f3c",
+            "actions": [
+                {
+                    "name": "DebugMode",
+                    "type": "Value",
+                    "id": "72e3de2d-1e4e-45a9-ad8c-191f3654937f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f6830a9d-4d54-471d-8f03-687e1b94da8b",
+                    "path": "<Keyboard>/f12",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DebugMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
